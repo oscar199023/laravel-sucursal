@@ -79,3 +79,8 @@ Route::post('/guardarFormulario',[
     'uses' => 'App\Http\Controllers\ActividadesController@guardarFormulario',
     'as' => 'guardarFormulario'
 ]);
+
+Route::post('/formularioConsultar',[
+    'uses' => 'App\Http\Controllers\ActividadesController@formularioConsultar',
+    'as' => 'formularioConsultar'
+]);

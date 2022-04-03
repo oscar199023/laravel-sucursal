@@ -22,6 +22,17 @@
                         <input type="text" name="sucursalConsulta" class="form-control">
                     </div>
                     <button type="submit" class="btn btn-primary">CONSULTAR</button>
+                    @if($errors->any())
+                    <p>completa todos los datos</p>
+                    <hr>
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach($errors->all() as $error)
+                                <li>{{$error}}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
                 </form>
             </div>
         </div>

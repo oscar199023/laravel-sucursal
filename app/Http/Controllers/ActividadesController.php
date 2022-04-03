@@ -41,5 +41,14 @@ class ActividadesController extends Controller
 
         return 'registro:'.$request->input("nombre");
     }
+
+    public function formularioConsultar(Request $request){
+
+        $this->validate($request,[
+            'codigoConsulta' => 'required',
+            'nombreConsulta' => 'required',
+            'sucursalConsulta' => 'required',
+        ]);
+    }
 }   
 

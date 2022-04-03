@@ -10,15 +10,26 @@
             <div class="col col-lg-5">
                 <form action="" method="post">
                     <div class="mb-3">
-                        <label for="">CORREO</label>
-                        <input type="text" name="correoLogin" class="form-control" placeholder="ingrese correo">
+                        <label for="">NOMBRE</label>
+                        <input type="text" name="nombreLogin" class="form-control" placeholder="ingrese su nombre">
                     </div>
                     <div class="mb-3">
                         <label for="">CONTRASEÑA</label>
                         <br>
                         <input type="password" name="contraseñaLogin" id="" placeholder="Ingrese la contraseña">
                     </div>
-                    <button type="submit" class="btn btn-primary" href="http://127.0.0.1:8000/actividades">Ingresar</button>
+                    <button type="submit" class="btn btn-primary">Ingresar</button>
+                    @if($errors->any())
+                    <p>completa todos los datos</p>
+                    <hr>
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach($errors->all() as $error)
+                                <li>{{$error}}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
                 </form>
             </div>
         </div>
