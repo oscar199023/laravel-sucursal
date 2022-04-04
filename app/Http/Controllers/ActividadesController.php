@@ -67,5 +67,12 @@ class ActividadesController extends Controller
 
         ]);
     }
+
+    public function formularioActualizar(Request $request){
+
+        $this->validate($request,[
+            'eliminarID' => 'required',
+        ]);
+    }
 }   
 

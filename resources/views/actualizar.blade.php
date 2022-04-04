@@ -9,7 +9,7 @@
 <div class="container">
         <div class="row">
             <div class="col col-lg-5">
-                <form action="" method="post">
+                <form action="{{url('formularioActualizar')}}" method="post">
                     <div class="mb-3">
                         <label for="">NOMBRE</label>
                         <input type="text" name="nombreActualizar" class="form-control">
@@ -23,6 +23,17 @@
                         <input type="text" name="descripcionActualizar" class="form-control">
                     </div>
                     <button type="submit" class="btn btn-primary">ACTUALIZAR</button>
+                    @if($errors->any())
+                    <p>completa todos los datos</p>
+                    <hr>
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach($errors->all() as $error)
+                                <li>{{$error}}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
                 </form>
             </div>
         </div>
