@@ -67,7 +67,7 @@ class ActividadesController extends Controller
     public function formularioLogin(Request $request){
 
         $this->validate($request,[
-            'nombreLogin' => 'required|String',
+            'nombreLogin' => 'required',
             'contraseñaLogin' => 'required'
 
         ]);
@@ -91,7 +91,7 @@ class ActividadesController extends Controller
                 .'<p><b>Precio:</b> '.$request->input("precioActualizar").'</p>'
                 .'<p><b>Descripción:</b> '.$request->input("descripcionActualizar").'</p>';
     }
-    
+
     public function formularioEliminar(Request $request){
 
         $this->validate($request,[
