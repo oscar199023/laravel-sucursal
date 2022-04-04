@@ -39,7 +39,15 @@ class ActividadesController extends Controller
             'precioStock' => 'required|integer',
         ]);
 
-        return 'registro:'.$request->input("nombreStock");
+        return '<h1>Registro: </h1>'
+                .'<p><b>ID:</b> '.$request->input("idProducto").'</p>'
+                .'<p><b>Código:</b> '.$request->input("codigoStock").'</p>'
+                .'<p><b>Nombre:</b> '.$request->input("nombreStock").'</p>'
+                .'<p><b>Categoría:</b> '.$request->input("categoriaStock").'</p>'
+                .'<p><b>Sucursal:</b> '.$request->input("sucursalStock").'</p>'
+                .'<p><b>Descripción:</b> '.$request->input("descripcionStock").'</p>'
+                .'<p><b>Cantidad:</b> '.$request->input("cantidadStock").'</p>'
+                .'<p><b>Precio:</b> $'.$request->input("precioStock").'</p>';
     }
 
     public function formularioConsultar(Request $request){
