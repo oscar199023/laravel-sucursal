@@ -44,22 +44,22 @@ Route::get('/actividades/{nombre?}', function ($nombre= 'actividades') {
         ->with('nombre', $nombre);
 });
 
-Route::get('/consultar/{nombre?}', function ($nombre= 'consulta') {
+Route::get('/consultar/{nombre?}', function ($nombre= 'Tu Consulta') {
     return view('consultar')
         ->with('nombre', $nombre);
 });
 
-Route::get('/actualizar/{nombre?}', function ($nombre= 'actualiza') {
+Route::get('/actualizar/{nombre?}', function ($nombre= 'actualizado') {
     return view('actualizar')
         ->with('nombre', $nombre);
 });
 
-Route::get('/eliminar/{nombre?}', function ($nombre= 'elimina') {
+Route::get('/eliminar/{nombre?}', function ($nombre= 'eliminado') {
     return view('eliminar')
         ->with('nombre', $nombre);
 });
 
-Route::get('/registrar/{nombre?}', function ($nombre= 'registra') {
+Route::get('/registrar/{nombre?}', function ($nombre= 'registrado') {
     return view('registrar')
         ->with('nombre', $nombre);
 });

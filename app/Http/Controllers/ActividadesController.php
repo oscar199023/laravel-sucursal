@@ -39,7 +39,7 @@ class ActividadesController extends Controller
             'precioStock' => 'required|integer',
         ]);
 
-        return '<h1>Registro: </h1>'
+        return '<h1>Registrado: </h1>'
                 .'<p><b>ID:</b> '.$request->input("idProducto").'</p>'
                 .'<p><b>Código:</b> '.$request->input("codigoStock").'</p>'
                 .'<p><b>Nombre:</b> '.$request->input("nombreStock").'</p>'
@@ -58,7 +58,7 @@ class ActividadesController extends Controller
             'sucursalConsulta',
         ]);
 
-        return '<h1>Consulta: </h1>'
+        return '<h1>Consulta con exito: </h1>'
                 .'<p><b>Código:</b> '.$request->input("codigoConsulta").'</p>'
                 .'<p><b>Nombre:</b> '.$request->input("nombreConsulta").'</p>'
                 .'<p><b>Sucursal:</b> '.$request->input("sucursalConsulta").'</p>';
@@ -67,7 +67,7 @@ class ActividadesController extends Controller
     public function formularioLogin(Request $request){
 
         $this->validate($request,[
-            'nombreLogin' => 'required|String',
+            'nombreLogin' => 'required',
             'contraseñaLogin' => 'required'
 
         ]);
@@ -86,7 +86,7 @@ class ActividadesController extends Controller
             'descripcionActualizar' => 'required',
         ]);
 
-        return '<h1>Actualizar: </h1>'
+        return '<h1>Actualizado: </h1>'
                 .'<p><b>Nombre:</b> '.$request->input("nombreActualizar").'</p>'
                 .'<p><b>Precio:</b> '.$request->input("precioActualizar").'</p>'
                 .'<p><b>Descripción:</b> '.$request->input("descripcionActualizar").'</p>';
@@ -98,7 +98,7 @@ class ActividadesController extends Controller
             'eliminarID' => 'required',
         ]);
 
-        return '<h1>Eliminar: </h1>'
+        return '<h1>Eliminado: </h1>'
                 .'<p><b>Id:</b> '.$request->input("eliminarID").'</p>';
     }
 }   
