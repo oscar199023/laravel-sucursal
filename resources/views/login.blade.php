@@ -11,12 +11,12 @@
                 <form action="{{url('formularioLogin')}}" method="post">
                     <div class="mb-3">
                         <label for="">NOMBRE</label>
-                        <input type="text" name="nombreLogin" class="form-control" placeholder="ingrese su nombre">
+                        <input type="text" name="nombreLogin" class="form-control" id="nombreLogin" placeholder="ingrese su nombre">
                     </div>
                     <div class="mb-3">
                         <label for="">CONTRASEÑA</label>
                         <br>
-                        <input type="password" name="contraseñaLogin" id="" placeholder="Ingrese la contraseña">
+                        <input type="password" name="contraseñaLogin"  class="form-control" id="contraseñaLogin" placeholder="Ingrese la contraseña">
                     </div>
                     <button type="submit" class="btn btn-primary">Ingresar</button>
                     @if($errors->any())

@@ -57,6 +57,11 @@ class ActividadesController extends Controller
             'nombreConsulta' => 'required',
             'sucursalConsulta',
         ]);
+
+        return '<h1>Consulta: </h1>'
+                .'<p><b>Código:</b> '.$request->input("codigoConsulta").'</p>'
+                .'<p><b>Nombre:</b> '.$request->input("nombreConsulta").'</p>'
+                .'<p><b>Sucursal:</b> '.$request->input("sucursalConsulta").'</p>';
     }
 
     public function formularioLogin(Request $request){
@@ -66,6 +71,11 @@ class ActividadesController extends Controller
             'contraseñaLogin' => 'required'
 
         ]);
+
+        return '<h1>Login: </h1>'
+                .'<p><b>Nombre de usuario:</b> '.$request->input("nombreLogin").'</p>'
+                .'<p><b>Contraseña:</b> '.$request->input("contraseñaLogin").'</p>';
+            
     }
 
     public function formularioActualizar(Request $request){
@@ -74,14 +84,22 @@ class ActividadesController extends Controller
             'nombreActualizar' => 'required',
             'precioActualizar' => 'required | integer',
             'descripcionActualizar' => 'required',
-
         ]);
+
+        return '<h1>Actualizar: </h1>'
+                .'<p><b>Nombre:</b> '.$request->input("nombreActualizar").'</p>'
+                .'<p><b>Precio:</b> '.$request->input("precioActualizar").'</p>'
+                .'<p><b>Descripción:</b> '.$request->input("descripcionActualizar").'</p>';
     }
+    
     public function formularioEliminar(Request $request){
 
         $this->validate($request,[
             'eliminarID' => 'required',
         ]);
+
+        return '<h1>Eliminar: </h1>'
+                .'<p><b>Id:</b> '.$request->input("eliminarID").'</p>';
     }
 }   
 
