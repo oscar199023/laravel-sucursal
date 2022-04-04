@@ -39,7 +39,7 @@ class ActividadesController extends Controller
             'precioStock' => 'required|integer',
         ]);
 
-        return 'registro:'.$request->input("nombre");
+        return 'registro:'.$request->input("nombreStock");
     }
 
     public function formularioConsultar(Request $request){
@@ -48,6 +48,15 @@ class ActividadesController extends Controller
             'codigoConsulta' => 'required',
             'nombreConsulta' => 'required',
             'sucursalConsulta' => 'required',
+        ]);
+    }
+
+    public function formularioLogin(Request $request){
+
+        $this->validate($request,[
+            'nombreLogin' => 'required',
+            'contraseñaLogin' => 'required'
+
         ]);
     }
 }   

@@ -8,7 +8,7 @@
 <div class="container">
         <div class="row">
             <div class="col col-lg-5">
-                <form action="" method="post">
+                <form action="{{url('formularioLogin')}}" method="post">
                     <div class="mb-3">
                         <label for="">NOMBRE</label>
                         <input type="text" name="nombreLogin" class="form-control" placeholder="ingrese su nombre">

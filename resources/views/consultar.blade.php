@@ -8,7 +8,7 @@
 <div class="container">
         <div class="row">
             <div class="col col-lg-5">
-                <form action="" method="post">
+                <form action="{{url('formularioConsultar')}}" method="post">
                     <div class="mb-3">
                         <label for="">CODIGO</label>
                         <input type="text" name="codigoConsulta" class="form-control">
@@ -41,6 +41,6 @@
 @stop
 
 @section('footer')
-<hr>
-<a href="http://127.0.0.1:8000/actividades">Regresar</a>
+    <hr>
+    <a href="http://127.0.0.1:8000/actividades">Regresar</a>
 @stop

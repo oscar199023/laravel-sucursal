@@ -84,3 +84,8 @@ Route::post('/formularioConsultar',[
     'uses' => 'App\Http\Controllers\ActividadesController@formularioConsultar',
     'as' => 'formularioConsultar'
 ]);
+
+Route::post('/formularioLogin',[
+    'uses' => 'App\Http\Controllers\ActividadesController@formularioLogin',
+    'as' => 'formularioLogin'
+]);
