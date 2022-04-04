@@ -55,7 +55,7 @@ class ActividadesController extends Controller
         $this->validate($request,[
             'codigoConsulta' => 'required',
             'nombreConsulta' => 'required',
-            'sucursalConsulta' => 'required',
+            'sucursalConsulta',
         ]);
     }
 
@@ -69,6 +69,15 @@ class ActividadesController extends Controller
     }
 
     public function formularioActualizar(Request $request){
+
+        $this->validate($request,[
+            'nombreActualizar' => 'required',
+            'precioActualizar' => 'required | integer',
+            'descripcionActualizar' => 'required',
+
+        ]);
+    }
+    public function formularioEliminar(Request $request){
 
         $this->validate($request,[
             'eliminarID' => 'required',

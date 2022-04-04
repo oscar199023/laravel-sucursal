@@ -94,3 +94,8 @@ Route::post('/formularioActualizar',[
     'uses' => 'App\Http\Controllers\ActividadesController@formularioActualizar',
     'as' => 'formularioActualizar'
 ]);
+
+Route::post('/formularioEliminar',[
+    'uses' => 'App\Http\Controllers\ActividadesController@formularioEliminar',
+    'as' => 'formularioEliminar'
+]);
