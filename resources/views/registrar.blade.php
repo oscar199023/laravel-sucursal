@@ -26,7 +26,11 @@
                     </div>
                     <div class="mb-3">
                         <label for="">SUCURSAL DISPONIBLE</label>
-                        <input type="text" name="sucursalStock" class="form-control">
+                        <select name="sucursalStock" class="form-select">
+                            <option selected value="alameda">Alameda</option>
+                            <option value="apoquindo">Apoquindo</option>
+                            <option value="vicuna_mackenna">Vicuña Mackenna</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="">DESCRIPCION</label>
