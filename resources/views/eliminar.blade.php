@@ -7,7 +7,7 @@
 <div class="container">
         <div class="row">
             <div class="col col-lg-5">
-                <form action="{{url('formularioLogin')}}" method="post">
+                <form action="{{url('formularioEliminar')}}" method="post">
                     <div class="mb-3">
                         <label for="">Eliminar</label>
                         <input type="text" name="eliminarID" class="form-control" placeholder="ingrese ID a Eliminar">
