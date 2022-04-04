@@ -91,7 +91,7 @@ class ActividadesController extends Controller
                 .'<p><b>Precio:</b> '.$request->input("precioActualizar").'</p>'
                 .'<p><b>Descripción:</b> '.$request->input("descripcionActualizar").'</p>';
     }
-    
+
     public function formularioEliminar(Request $request){
 
         $this->validate($request,[
