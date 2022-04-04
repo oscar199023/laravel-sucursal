@@ -67,7 +67,7 @@ class ActividadesController extends Controller
     public function formularioLogin(Request $request){
 
         $this->validate($request,[
-            'nombreLogin' => 'required',
+            'nombreLogin' => 'required|String',
             'contraseñaLogin' => 'required'
 
         ]);
