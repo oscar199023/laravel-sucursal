@@ -101,5 +101,6 @@ class ActividadesController extends Controller
         return '<h1>Eliminado: </h1>'
                 .'<p><b>Id:</b> '.$request->input("eliminarID").'</p>';
     }
+    
 }   
 
