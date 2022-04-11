@@ -25,7 +25,11 @@
                 </div>
                 <div class="mb-3">
                     <label for="">SUCURSAL</label>
-                    <input type="text" name="sucursalConsulta" class="form-control">
+                    <select name="sucursalStock" class="form-select">
+                        <option selected value="alameda">Alameda</option>
+                        <option value="apoquindo">Apoquindo</option>
+                        <option value="vicuna_mackenna">Vicuña Mackenna</option>
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-primary">CONSULTAR</button>
                 @if($errors->any())
