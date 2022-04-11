@@ -13,9 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('login');
-});
+// Route::get('/', function () {
+//     return view('login');
+// });
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/contacto/{nombre?}/{edad?}', function($nombre= 'oscar', $edad='15'){
     return view('contacto')
@@ -34,15 +36,11 @@ Route::get('/sucursal/{nombre?}', function ($nombre= 'bienvenido') {
         ->with('nombre', $nombre);
 });
 
-Route::get('/login/{nombre?}', function ($nombre = 'entrar') {
-    return view('login')
-        ->with('nombre', $nombre);
-});
+// Route::get('/login/{nombre?}', function ($nombre = 'entrar') {
+//     return view('login')
+//         ->with('nombre', $nombre);
+// });
 
-Route::get('/actividades/{nombre?}', function ($nombre= 'actividades') {
-    return view('actividades')
-        ->with('nombre', $nombre);
-});
 
 Route::get('/consultar/{nombre?}', function ($nombre= 'Tu Consulta') {
     return view('consultar')
@@ -99,3 +97,11 @@ Route::post('/formularioEliminar',[
     'uses' => 'App\Http\Controllers\ActividadesController@formularioEliminar',
     'as' => 'formularioEliminar'
 ]);
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/actividades/{nombre?}', function ($nombre= 'actividades') {
+    return view('actividades')
+        ->with('nombre', $nombre);
+});
