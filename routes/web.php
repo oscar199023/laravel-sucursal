@@ -20,11 +20,7 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::get('/actualizar', 'App\Http\Controllers\ActividadesController@actualizar');
 Route::get('/consultar', 'App\Http\Controllers\ActividadesController@consultar');
 Route::get('/eliminar', 'App\Http\Controllers\ActividadesController@eliminar');
-
-Route::get('/registrar',[
-     'uses' => 'App\Http\Controllers\ActividadesController@registrar',
-     'as' => 'registrarStock'
-]);
+Route::get('/registrar','App\Http\Controllers\ActividadesController@registrar');
 
 //guardar Formulario
 Route::post('/guardarFormulario',[
