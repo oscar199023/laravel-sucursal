@@ -14,13 +14,13 @@
                         </div>
                     @endif
 
-                    <a href="/registrar">Registrar</a>
+                    <a href="{{ url('/registrar') }}">Registrar</a>
                     <hr>
-                    <a href="/consultar">Consultar</a>
+                    <a href="{{ url('/consultar') }}">Consultar</a>
                     <hr>
-                    <a href="/eliminar">Eliminar</a>
+                    <a href="{{ url('/eliminar') }}">Eliminar</a>
                     <hr>
-                    <a href="/actualizar">Actualizar</a>
+                    <a href="{{ url('/actualizar') }}">Actualizar</a>
                 </div>
             </div>
         </div>
