@@ -61,18 +61,33 @@ class ActividadesController extends Controller
         $producto->categoria_id = $request->categoriaStock;
         $producto->activo = 1;
         $producto->save();
-        
+
         return view('registrar');
     }
 
     public function formularioConsultar(Request $request){
 
-        $this->validate($request,[
-            'codigoConsulta' => 'required',
-            'nombreConsulta' => 'required',
-            'sucursalConsulta',
-        ]);
+        $buscarPor = $request->buscarProductoPor;
+        $operador = '=';
+        $termino = $request->codigoConsulta;
+        $sucursal = $request->sucursalConsulta;
 
+        if ($request->buscarProductoPor == 'nombre') {
+            $operador = 'like';
+            $termino = '%'.$request->codigoConsulta.'%';
+        }
+
+        $producto = Producto::where($buscarPor, $operador, $termino)
+            ->when($sucursal, function ($query, $sucursal) {
+                return $query->whereRelation('sucursal_producto', 'sucursal_id', '=', $sucursal);
+            })
+            ->get()
+            ->load('categoria')
+            ->load('sucursal_producto');
+
+        dd($producto);
+
+        //TODO producto a la vista
         return '<h1>Consulta con exito: </h1>'
                 .'<p><b>Código:</b> '.$request->input("codigoConsulta").'</p>'
                 .'<p><b>Nombre:</b> '.$request->input("nombreConsulta").'</p>'

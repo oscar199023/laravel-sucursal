@@ -15,4 +15,8 @@ class Producto extends Model
     public function categoria() {
         return $this->belongsTo('App\Models\Categoria');
     }
+
+    public function sucursal_producto() {
+        return $this->hasMany('App\Models\Sucursal_Producto');
+    }
 }

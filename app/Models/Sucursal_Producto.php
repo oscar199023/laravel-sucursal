@@ -5,9 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Producto extends Model
+class Sucursal_Producto extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'id';
+    protected $table = 'sucursal_producto';
+    public $timestamps = false;
     
     public function sucursal() {
         return $this->belongsTo('App\Models\Sucursal');
