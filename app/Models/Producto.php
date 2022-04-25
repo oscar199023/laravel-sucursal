@@ -8,10 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Producto extends Model
 {
     use HasFactory;
-    
-    public function sucursal() {
-        return $this->belongsTo('App\Models\Sucursal');
-    }
 
     public function categoria() {
         return $this->belongsTo('App\Models\Categoria');
