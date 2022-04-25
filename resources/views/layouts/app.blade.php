@@ -35,6 +35,9 @@
                             <a class="nav-link" href="{{ url('/registrar') }}">Registrar</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/asignar') }}">Asignar a sucursal</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ url('/consultar') }}">Consultar</a>
                         </li>
                         <li class="nav-item">
