@@ -9,8 +9,8 @@ class Sucursal extends Model
 {
     use HasFactory;
     
-    public function productos() {
-        return $this->hasMany('App\Models\Producto');
+    public function sucursales_productos() {
+        return $this->hasMany('App\Models\Sucursal_Producto');
     }
 
     public function comuna() {
