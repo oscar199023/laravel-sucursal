@@ -14,7 +14,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <form action="{{url('formularioConsultar')}}" method="post">
+            <form action="{{url('/formularioConsultar')}}" method="POST">
                 <div class="mb-3">
                     <label>Buscar por</label>
                     <div class="form-check">
@@ -55,6 +55,41 @@
             </form>
         </div>
     </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Código</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Categoría</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Sucursal</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($sucursal_productos as $sucursal_producto)
+                            <tr>
+                                <td scope="row">{{ $sucursal_producto->producto->codigo }}</td>
+                                <th scope="row">{{ $sucursal_producto->producto->nombre }}</th>
+                                <th scope="row">{{ $sucursal_producto->producto->categoria_id }}</th>
+                                <th scope="row">{{ $sucursal_producto->producto->descripcion }}</th>
+                                <th scope="row">{{ $sucursal_producto->sucursal->nombre }}</th>
+                                <th scope="row">{{ $sucursal_producto->precio }}</th>
+                                <th scope="row">{{ $sucursal_producto->stock }}</th>
+                            </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            @if($sucursal_productos->isEmpty())
+                Sin resultados
+            @endif
+        </div>
+    </div>
+
+
 </div>
 
 @stop

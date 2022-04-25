@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Producto;
+use App\Models\Sucursal_Producto;
 use Illuminate\Support\Facade\DB;
 
 class ActividadesController extends Controller
@@ -27,7 +27,13 @@ class ActividadesController extends Controller
     }
 
     public function consultar(){
-        return view('consultar');
+        $productos = Sucursal_Producto::get()
+            ->load('sucursal')
+            ->load('producto');
+
+        return view('consultar', [
+            'sucursal_productos' => $productos
+        ]);
     }
 
     public function eliminar(){
@@ -77,21 +83,17 @@ class ActividadesController extends Controller
             $termino = '%'.$request->codigoConsulta.'%';
         }
 
-        $producto = Producto::where($buscarPor, $operador, $termino)
-            ->when($sucursal, function ($query, $sucursal) {
-                return $query->whereRelation('sucursal_producto', 'sucursal_id', '=', $sucursal);
-            })
+        $sucursal_productos = Sucursal_Producto::whereRelation('producto', $buscarPor, $operador, $termino)
             ->get()
-            ->load('categoria')
-            ->load('sucursal_producto');
+            ->load('sucursal')
+            ->load('producto')
+            ->when($sucursal, function ($query, $sucursal) {
+                return $query->where('sucursal_id', '=', $sucursal);
+            });
 
-        dd($producto);
-
-        //TODO producto a la vista
-        return '<h1>Consulta con exito: </h1>'
-                .'<p><b>Código:</b> '.$request->input("codigoConsulta").'</p>'
-                .'<p><b>Nombre:</b> '.$request->input("nombreConsulta").'</p>'
-                .'<p><b>Sucursal:</b> '.$request->input("sucursalConsulta").'</p>';
+        return view('consultar', [
+            'sucursal_productos' => $sucursal_productos
+        ]);
     }
 
     public function formularioLogin(Request $request){
