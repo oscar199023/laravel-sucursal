@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Sucursal_Producto;
+use Illuminate\Support\Facade\DB;
 
 class ActividadesController extends Controller
 {
@@ -25,7 +27,13 @@ class ActividadesController extends Controller
     }
 
     public function consultar(){
-        return view('consultar');
+        $productos = Sucursal_Producto::get()
+            ->load('sucursal')
+            ->load('producto');
+
+        return view('consultar', [
+            'sucursal_productos' => $productos
+        ]);
     }
 
     public function eliminar(){
@@ -36,42 +44,56 @@ class ActividadesController extends Controller
         return view('registrar');
     }
 
+    public function asignar(){
+        return view('asignar');
+    }
+
+    
+
     public function guardarFormulario(Request $request){
         //Logica de codigo
         $this->validate($request, [
-            'idProducto' => 'required',  
             'codigoStock' => 'required',
             'nombreStock' => 'required',
             'categoriaStock' => 'required',
-            'sucursalStock' => 'required',
             'descripcionStock' => 'required',
-            'cantidadStock' => 'required|integer',
-            'precioStock' => 'required|integer',
         ]);
 
-        return '<h1>Registrado: </h1>'
-                .'<p><b>ID:</b> '.$request->input("idProducto").'</p>'
-                .'<p><b>Código:</b> '.$request->input("codigoStock").'</p>'
-                .'<p><b>Nombre:</b> '.$request->input("nombreStock").'</p>'
-                .'<p><b>Categoría:</b> '.$request->input("categoriaStock").'</p>'
-                .'<p><b>Sucursal:</b> '.$request->input("sucursalStock").'</p>'
-                .'<p><b>Descripción:</b> '.$request->input("descripcionStock").'</p>'
-                .'<p><b>Cantidad:</b> '.$request->input("cantidadStock").'</p>'
-                .'<p><b>Precio:</b> $'.$request->input("precioStock").'</p>';
+        //creamos
+        $producto = new Producto();
+        $producto->codigo = $request->codigoStock;
+        $producto->nombre = $request->nombreStock;
+        $producto->descripcion = $request->descripcionStock;
+        $producto->categoria_id = $request->categoriaStock;
+        $producto->activo = 1;
+        $producto->save();
+
+        return view('registrar');
     }
 
     public function formularioConsultar(Request $request){
 
-        $this->validate($request,[
-            'codigoConsulta' => 'required',
-            'nombreConsulta' => 'required',
-            'sucursalConsulta',
-        ]);
+        $buscarPor = $request->buscarProductoPor;
+        $operador = '=';
+        $termino = $request->codigoConsulta;
+        $sucursal = $request->sucursalConsulta;
 
-        return '<h1>Consulta con exito: </h1>'
-                .'<p><b>Código:</b> '.$request->input("codigoConsulta").'</p>'
-                .'<p><b>Nombre:</b> '.$request->input("nombreConsulta").'</p>'
-                .'<p><b>Sucursal:</b> '.$request->input("sucursalConsulta").'</p>';
+        if ($request->buscarProductoPor == 'nombre') {
+            $operador = 'like';
+            $termino = '%'.$request->codigoConsulta.'%';
+        }
+
+        $sucursal_productos = Sucursal_Producto::whereRelation('producto', $buscarPor, $operador, $termino)
+            ->get()
+            ->load('sucursal')
+            ->load('producto')
+            ->when($sucursal, function ($query, $sucursal) {
+                return $query->where('sucursal_id', '=', $sucursal);
+            });
+
+        return view('consultar', [
+            'sucursal_productos' => $sucursal_productos
+        ]);
     }
 
     public function formularioLogin(Request $request){

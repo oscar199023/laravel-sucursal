@@ -16,34 +16,35 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/actualizar', 'App\Http\Controllers\ActividadesController@actualizar');
-Route::get('/consultar', 'App\Http\Controllers\ActividadesController@consultar');
-Route::get('/eliminar', 'App\Http\Controllers\ActividadesController@eliminar');
-Route::get('/registrar','App\Http\Controllers\ActividadesController@registrar');
+Route::get('/', 'ActividadesController@index');
+Route::get('/actualizar', 'ActividadesController@actualizar');
+Route::get('/consultar', 'ActividadesController@consultar');
+Route::get('/eliminar', 'ActividadesController@eliminar');
+Route::get('/registrar','ActividadesController@registrar');
+Route::get('/asignar','ActividadesController@asignar');
 
 //guardar Formulario
 Route::post('/guardarFormulario',[
-    'uses' => 'App\Http\Controllers\ActividadesController@guardarFormulario',
+    'uses' => 'ActividadesController@guardarFormulario',
     'as' => 'guardarFormulario'
 ]);
 
 Route::post('/formularioConsultar',[
-    'uses' => 'App\Http\Controllers\ActividadesController@formularioConsultar',
+    'uses' => 'ActividadesController@formularioConsultar',
     'as' => 'formularioConsultar'
 ]);
 
 Route::post('/formularioLogin',[
-    'uses' => 'App\Http\Controllers\ActividadesController@formularioLogin',
+    'uses' => 'ActividadesController@formularioLogin',
     'as' => 'formularioLogin'
 ]);
 
 Route::post('/formularioActualizar',[
-    'uses' => 'App\Http\Controllers\ActividadesController@formularioActualizar',
+    'uses' => 'ActividadesController@formularioActualizar',
     'as' => 'formularioActualizar'
 ]);
 
 Route::post('/formularioEliminar',[
-    'uses' => 'App\Http\Controllers\ActividadesController@formularioEliminar',
+    'uses' => 'ActividadesController@formularioEliminar',
     'as' => 'formularioEliminar'
 ]);

@@ -8,12 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Producto extends Model
 {
     use HasFactory;
-    
-    public function sucursal() {
-        return $this->belongsTo('App\Models\Sucursal');
-    }
+    protected $primaryKey = 'id';
+    protected $table = 'producto';
+    public $timestamps = false;
 
     public function categoria() {
         return $this->belongsTo('App\Models\Categoria');
     }
+
+    public function sucursal_producto() {
+        return $this->hasMany('App\Models\Sucursal_Producto');
+    }
+
 }
