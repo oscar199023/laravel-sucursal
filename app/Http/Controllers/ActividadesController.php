@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Producto;
+use App\Models\Sucursal_Producto;
+use Illuminate\Support\Facade\DB;
 
 class ActividadesController extends Controller
 {
