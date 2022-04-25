@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <h1>Registrar nuevo Producto</h1>
+            <h1>Asignar producto en sucursal</h1>
         </div>
     </div>
 </div>
@@ -20,21 +20,20 @@
                     <input type="text" name="codigoStock" class="form-control">
                 </div>
                 <div class="mb-3">
-                    <label for="">NOMBRE</label>
-                    <input type="text" name="nombreStock" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label for="">CATEGORIA</label>
-                    <select name="categoriaStock" class="form-select">
-                        <option selected value="">-Seleccione categoría-</option>
-                        <option value="1">SUV</option>
-                        <option value="2">Sedán</option>
-                        <option value="3">City Car</option>
+                    <label for="">SUCURSAL</label>
+                    <select name="sucursalStock" class="form-select">
+                        <option selected value="1">Alameda</option>
+                        <option value="2">Apoquindo</option>
+                        <option value="3">Vicuña Mackenna</option>
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label for="">DESCRIPCION</label>
-                    <input type="text" name="descripcionStock" class="form-control">
+                    <label for="">CANTIDAD</label>
+                    <input type="text" name="cantidadStock" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="">PRECIO</label>
+                    <input type="text" name="precioStock" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-primary">REGISTRAR</button>
                 @if($errors->any())
