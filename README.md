@@ -1,3 +1,4 @@
 ## Evaluación de unidad 2
 
-- [Consulta de producto](https://laravel.com/docs/routing).
+- [Registro de nuevo producto](https://youtu.be/XxHwabgP8Fs).
+- [Consulta de producto](https://youtu.be/5_3iKwbJLBo).
