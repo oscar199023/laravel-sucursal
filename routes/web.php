@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', 'App\Http\Controllers\ActividadesController@index');
 Route::get('/actualizar', 'App\Http\Controllers\ActividadesController@actualizar');
 Route::get('/consultar', 'App\Http\Controllers\ActividadesController@consultar');
 Route::get('/eliminar', 'App\Http\Controllers\ActividadesController@eliminar');
