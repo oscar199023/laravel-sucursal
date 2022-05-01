@@ -133,6 +133,47 @@ class ActividadesController extends Controller
         return '<h1>Eliminado: </h1>'
                 .'<p><b>Id:</b> '.$request->input("eliminarID").'</p>';
     }
+
+    public function asignarFormulario(Request $request){
+        //Logica de codigo
+        $this->validate($request, [
+            'codigoStock' => 'required',
+            'sucursalStock' => 'required',
+            'cantidadStock' => 'required',
+            'precioStock' => 'required',
+
+            
+        ]);
+
+        $buscarPor = $request->codigoStock;
+        $operador = '=';
+        $termino = $request->codigoStock;
+
+        if ($request->codigoStock == 'nombre') {
+            $operador = 'like';
+            $termino = '%'.$request->codigoStock.'%';
+        }
+        /*$sucursal_productos = Sucursal_Producto::whereRelation('producto', $buscarPor, $operador, $termino)
+        ->get()
+        ->load('sucursal')
+        ->load('producto')
+        ->when($sucursal, function ($query, $sucursal) {
+            return $query->where('sucursal_id', '=', $sucursal);*/
+            {
+                $products= Product::all();
+                return $products;
+            }
+        });
+        
+
+        $sucursal_producto = new Sucursal_Producto();
+        $sucursal_producto->sucursal_id = $request->sucursalStock;
+        $sucursal_producto->cantidad= $request->descripcionStock;
+        $sucursal_producto->precio = $request->categoriaStock;
+        $sucursal_producto->save();
+
+        return view('asignar');
+    }
     
 }   
 

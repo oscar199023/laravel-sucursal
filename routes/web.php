@@ -48,3 +48,8 @@ Route::post('/formularioEliminar',[
     'uses' => 'ActividadesController@formularioEliminar',
     'as' => 'formularioEliminar'
 ]);
+
+Route::post('/asignarFormulario',[
+    'uses' => 'ActividadesController@asignarFormulario',
+    'as' => 'asignarFormulario'
+]);

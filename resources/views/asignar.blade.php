@@ -14,7 +14,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <form action="{{url('guardarFormulario')}}" method="post">
+            <form action="{{url('asignarFormulario')}}" method="post">
                 <div class="mb-3">
                     <label for="">CODIGO</label>
                     <input type="text" name="codigoStock" class="form-control">
@@ -50,5 +50,6 @@
             </form>
         </div>
     </div>
+    
 </div>
 @stop
