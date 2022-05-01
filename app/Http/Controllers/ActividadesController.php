@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Sucursal_Producto;
+use App\Models\Producto;
 use Illuminate\Support\Facade\DB;
 
 class ActividadesController extends Controller
@@ -37,7 +38,13 @@ class ActividadesController extends Controller
     }
 
     public function eliminar(){
-        return view('eliminar');
+        $productos = Sucursal_Producto::get()
+            ->load('sucursal')
+            ->load('producto');
+
+        return view('eliminar', [
+            'sucursal_productos' => $productos
+        ]);
     }
 
     public function registrar(){
@@ -45,7 +52,11 @@ class ActividadesController extends Controller
     }
 
     public function asignar(){
-        return view('asignar');
+        $productos = Producto::get();
+
+        return view('tablaAsignar', [
+            'productos' => $productos
+        ]);
     }
 
     
@@ -124,15 +135,111 @@ class ActividadesController extends Controller
                 .'<p><b>Descripción:</b> '.$request->input("descripcionActualizar").'</p>';
     }
 
-    public function formularioEliminar(Request $request){
+    public function consultaEliminar(Request $request){
 
         $this->validate($request,[
-            'eliminarID' => 'required',
+            'codigoConsultaEliminar' => 'required',
         ]);
 
-        return '<h1>Eliminado: </h1>'
-                .'<p><b>Id:</b> '.$request->input("eliminarID").'</p>';
+        $codigo = $request->codigoConsultaEliminar;
+        $sucursal = $request->sucursalConsultaEliminar;
+
+        $sucursal_productos = Sucursal_Producto::whereRelation('producto', 'codigo', '=', $codigo)
+            ->get()
+            ->load('sucursal')
+            ->load('producto')
+            ->when($sucursal, function ($query, $sucursal) {
+                return $query->where('sucursal_id', '=', $sucursal);
+            });
+
+        return view('eliminar', [
+            'sucursal_productos' => $sucursal_productos
+        ]);
     }
-    
+
+    public function eliminarProductoDeSucursal(Request $request){
+
+        $prodId = $request->prodId;
+
+        Sucursal_Producto::where('id', $prodId)->delete();
+
+        $productos = Sucursal_Producto::get()
+            ->load('sucursal')
+            ->load('producto');
+
+        return view('eliminar', [
+            'sucursal_productos' => $productos
+        ]);
+    }
+
+    public function darDeBajaProducto(Request $request){
+
+        $prodId = $request->prodId;
+
+        Sucursal_Producto::where('producto_id', $prodId)->delete();
+
+        Producto::where('id', $prodId)->update(['activo' => 0]);
+
+        $productos = Sucursal_Producto::get()
+            ->load('sucursal')
+            ->load('producto');
+
+        return view('eliminar', [
+            'sucursal_productos' => $productos
+        ]);
+    }
+
+    public function eliminarProducto(Request $request){
+
+        $prodId = $request->prodId;
+
+        Sucursal_Producto::where('producto_id', $prodId)->delete();
+
+        Producto::where('id', $prodId)->delete();
+
+        $productos = Sucursal_Producto::get()
+            ->load('sucursal')
+            ->load('producto');
+
+        return view('eliminar', [
+            'sucursal_productos' => $productos
+        ]);
+    }
+
+    public function seleccionarProductoAsignar(Request $request){
+
+        $prodId = $request->prodId;
+
+        $productos = Producto::where('id', $prodId)->get();
+
+        return view('asignar', [
+            'productos' => $productos
+        ]);
+    }
+
+    public function guardarProductoSucursal(Request $request){
+
+        //Logica de codigo
+        $this->validate($request, [
+            'prodId' => 'required',
+            'prodSucursal' => 'required',
+            'prodCantidad' => 'required',
+            'prodPrecio' => 'required',
+        ]);
+
+        //creamos
+        $sucursalProducto = new Sucursal_Producto();
+        $sucursalProducto->sucursal_id = $request->prodSucursal;
+        $sucursalProducto->producto_id = $request->prodId;
+        $sucursalProducto->precio = $request->prodPrecio;
+        $sucursalProducto->stock = $request->prodCantidad;
+        $sucursalProducto->save();
+
+        $productos = Producto::get();
+
+        return view('tablaAsignar', [
+            'productos' => $productos
+        ]);
+    }
 }   
 

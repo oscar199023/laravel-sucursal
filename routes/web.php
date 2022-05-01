@@ -44,7 +44,32 @@ Route::post('/formularioActualizar',[
     'as' => 'formularioActualizar'
 ]);
 
-Route::post('/formularioEliminar',[
-    'uses' => 'ActividadesController@formularioEliminar',
-    'as' => 'formularioEliminar'
+Route::post('/consultaEliminar',[
+    'uses' => 'ActividadesController@consultaEliminar',
+    'as' => 'consultaEliminar'
+]);
+
+Route::post('/eliminarProductoDeSucursal',[
+    'uses' => 'ActividadesController@eliminarProductoDeSucursal',
+    'as' => 'eliminarProductoDeSucursal'
+]);
+
+Route::post('/darDeBajaProducto',[
+    'uses' => 'ActividadesController@darDeBajaProducto',
+    'as' => 'darDeBajaProducto'
+]);
+
+Route::post('/eliminarProducto',[
+    'uses' => 'ActividadesController@eliminarProducto',
+    'as' => 'eliminarProducto'
+]);
+
+Route::post('/seleccionarProductoAsignar',[
+    'uses' => 'ActividadesController@seleccionarProductoAsignar',
+    'as' => 'seleccionarProductoAsignar'
+]);
+
+Route::post('/guardarProductoSucursal',[
+    'uses' => 'ActividadesController@guardarProductoSucursal',
+    'as' => 'guardarProductoSucursal'
 ]);
