@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <h1>Ingrese los Datos para Consultar</h1>
+            <h1>Consultar productos asociados a sucursales</h1>
         </div>
     </div>
 </div>
@@ -29,10 +29,10 @@
                             Nombre
                         </label>
                     </div>
-                    <input type="text" name="codigoConsulta" class="form-control">
+                    <input type="text" name="codigoConsulta" class="form-control" required>
                 </div>
                 <div class="mb-3">
-                    <label for="">SUCURSAL</label>
+                    <label for="">Sucursal</label>
                     <select name="sucursalConsulta" class="form-select">
                         <option selected value="">-Seleccione sucursal (opcional)-</option>
                         <option value="1">Alameda</option>
