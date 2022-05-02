@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('header')
+@if($mensaje_alert != "")
+    <div class="alert alert-{{$tipo_alert}}" role="alert">
+        {{$mensaje_alert}}
+    </div>
+@endif
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">

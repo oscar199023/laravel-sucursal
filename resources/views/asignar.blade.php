@@ -28,18 +28,18 @@
                     <div class="mb-3">
                         <label for="">SUCURSAL</label>
                         <select name="prodSucursal" class="form-select">
-                            <option selected value="1">Alameda</option>
-                            <option value="2">Apoquindo</option>
-                            <option value="3">Vicuña Mackenna</option>
+                            @foreach($sucursales as $sucursal)
+                                <option value="{{$sucursal->id}}">{{$sucursal->nombre}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="">CANTIDAD</label>
-                        <input type="text" name="prodCantidad" class="form-control">
+                        <input type="text" name="prodCantidad" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="">PRECIO</label>
-                        <input type="text" name="prodPrecio" class="form-control">
+                        <input type="text" name="prodPrecio" class="form-control" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Asignar producto a sucursal</button>
                     @if($errors->any())

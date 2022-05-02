@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Sucursal_Producto;
+use App\Models\Sucursal;
 use App\Models\Producto;
 use Illuminate\Support\Facade\DB;
 
@@ -38,12 +39,17 @@ class ActividadesController extends Controller
     }
 
     public function eliminar(){
-        $productos = Sucursal_Producto::get()
+        $productos = Producto::where('activo',1)->get();
+
+        $sucursal_productos = Sucursal_Producto::get()
             ->load('sucursal')
             ->load('producto');
 
         return view('eliminar', [
-            'sucursal_productos' => $productos
+            'sucursal_productos' => $sucursal_productos,
+            'productos' => $productos,
+            'tipo_alert' => '',
+            'mensaje_alert' => ''
         ]);
     }
 
@@ -52,10 +58,12 @@ class ActividadesController extends Controller
     }
 
     public function asignar(){
-        $productos = Producto::get();
+        $productos = Producto::where('activo',1)->get();
 
         return view('tablaAsignar', [
-            'productos' => $productos
+            'productos' => $productos,
+            'tipo_alert' => '',
+            'mensaje_alert' => ''
         ]);
     }
 
@@ -152,8 +160,15 @@ class ActividadesController extends Controller
                 return $query->where('sucursal_id', '=', $sucursal);
             });
 
+        $productos = Producto::where('activo',1)
+            ->where('codigo', $codigo)
+            ->get();
+
         return view('eliminar', [
-            'sucursal_productos' => $sucursal_productos
+            'sucursal_productos' => $sucursal_productos,
+            'productos' => $productos,
+            'tipo_alert' => '',
+            'mensaje_alert' => ''
         ]);
     }
 
@@ -163,13 +178,19 @@ class ActividadesController extends Controller
 
         Sucursal_Producto::where('id', $prodId)->delete();
 
-        $productos = Sucursal_Producto::get()
+        $productos = Producto::where('activo',1)->get();
+
+        $sucursal_productos = Sucursal_Producto::get()
             ->load('sucursal')
             ->load('producto');
 
         return view('eliminar', [
-            'sucursal_productos' => $productos
+            'sucursal_productos' => $sucursal_productos,
+            'productos' => $productos,
+            'tipo_alert' => 'success',
+            'mensaje_alert' => 'Producto correctamente eliminado de la sucursal. Asociación Producto - Sucursal id: '.$prodId
         ]);
+        
     }
 
     public function darDeBajaProducto(Request $request){
@@ -180,12 +201,17 @@ class ActividadesController extends Controller
 
         Producto::where('id', $prodId)->update(['activo' => 0]);
 
-        $productos = Sucursal_Producto::get()
+        $productos = Producto::where('activo',1)->get();
+
+        $sucursal_productos = Sucursal_Producto::get()
             ->load('sucursal')
             ->load('producto');
 
         return view('eliminar', [
-            'sucursal_productos' => $productos
+            'sucursal_productos' => $sucursal_productos,
+            'productos' => $productos,
+            'tipo_alert' => 'success',
+            'mensaje_alert' => 'Producto id '.$prodId.' correctamente dado de baja.'
         ]);
     }
 
@@ -197,12 +223,17 @@ class ActividadesController extends Controller
 
         Producto::where('id', $prodId)->delete();
 
-        $productos = Sucursal_Producto::get()
+        $productos = Producto::where('activo',1)->get();
+
+        $sucursal_productos = Sucursal_Producto::get()
             ->load('sucursal')
             ->load('producto');
 
         return view('eliminar', [
-            'sucursal_productos' => $productos
+            'sucursal_productos' => $sucursal_productos,
+            'productos' => $productos,
+            'tipo_alert' => 'success',
+            'mensaje_alert' => 'Producto id '.$prodId.' correctamente eliminado.'
         ]);
     }
 
@@ -211,9 +242,11 @@ class ActividadesController extends Controller
         $prodId = $request->prodId;
 
         $productos = Producto::where('id', $prodId)->get();
+        $sucursales = Sucursal::get();
 
         return view('asignar', [
-            'productos' => $productos
+            'productos' => $productos,
+            'sucursales' => $sucursales
         ]);
     }
 
@@ -227,19 +260,36 @@ class ActividadesController extends Controller
             'prodPrecio' => 'required',
         ]);
 
-        //creamos
-        $sucursalProducto = new Sucursal_Producto();
-        $sucursalProducto->sucursal_id = $request->prodSucursal;
-        $sucursalProducto->producto_id = $request->prodId;
-        $sucursalProducto->precio = $request->prodPrecio;
-        $sucursalProducto->stock = $request->prodCantidad;
-        $sucursalProducto->save();
+        $sucursales_productos = Sucursal_Producto::where('producto_id', $request->prodId)
+            ->where('sucursal_id', $request->prodSucursal)
+            ->get();
 
-        $productos = Producto::get();
+        if($sucursales_productos->isEmpty()){
+            //creamos
+            $sucursalProducto = new Sucursal_Producto();
+            $sucursalProducto->sucursal_id = $request->prodSucursal;
+            $sucursalProducto->producto_id = $request->prodId;
+            $sucursalProducto->precio = $request->prodPrecio;
+            $sucursalProducto->stock = $request->prodCantidad;
+            $sucursalProducto->save();
+    
+            $productos = Producto::where('activo',1)->get();
 
-        return view('tablaAsignar', [
-            'productos' => $productos
-        ]);
+            return view('tablaAsignar', [
+                'productos' => $productos,
+                'tipo_alert' => 'success',
+                'mensaje_alert' => 'Producto id '.$request->prodSucursal.' correctamente asociado a sucursal.'
+            ]);
+        } else {
+            $productos = Producto::where('activo',1)->get();
+
+            return view('tablaAsignar', [
+                'productos' => $productos,
+                'tipo_alert' => 'danger',
+                'mensaje_alert' => 'Error al guardar producto en sucursal. Producto id '.$request->prodSucursal.' ya estaba asociado previamente a la sucursal.'
+            ]);
+        }
+
     }
 }   
 
