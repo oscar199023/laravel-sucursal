@@ -69,7 +69,7 @@
                                 <th scope="row">
                                     <form action="{{url('darDeBajaProducto')}}" method="post">
                                         <input id="prodId" name="prodId" type="hidden" value="{{ $producto->id }}">
-                                        <button type="submit" class="btn btn-link" data-toggle="tooltip" data-placement="top" title="Tooltip on top">Dar de baja producto</button>
+                                        <button type="submit" class="btn btn-link">Dar de baja producto</button>
                                     </form>
                                 </th>
                                 <th scope="row">
