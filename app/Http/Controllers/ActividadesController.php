@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Sucursal_Producto;
+use App\Models\Sucursal;
+use App\Models\Producto;
 use Illuminate\Support\Facade\DB;
 
 class ActividadesController extends Controller
@@ -37,7 +39,18 @@ class ActividadesController extends Controller
     }
 
     public function eliminar(){
-        return view('eliminar');
+        $productos = Producto::where('activo',1)->get();
+
+        $sucursal_productos = Sucursal_Producto::get()
+            ->load('sucursal')
+            ->load('producto');
+
+        return view('eliminar', [
+            'sucursal_productos' => $sucursal_productos,
+            'productos' => $productos,
+            'tipo_alert' => '',
+            'mensaje_alert' => ''
+        ]);
     }
 
     public function registrar(){
@@ -45,7 +58,13 @@ class ActividadesController extends Controller
     }
 
     public function asignar(){
-        return view('asignar');
+        $productos = Producto::where('activo',1)->get();
+
+        return view('tablaAsignar', [
+            'productos' => $productos,
+            'tipo_alert' => '',
+            'mensaje_alert' => ''
+        ]);
     }
 
     
@@ -124,15 +143,153 @@ class ActividadesController extends Controller
                 .'<p><b>Descripción:</b> '.$request->input("descripcionActualizar").'</p>';
     }
 
-    public function formularioEliminar(Request $request){
+    public function consultaEliminar(Request $request){
 
         $this->validate($request,[
-            'eliminarID' => 'required',
+            'codigoConsultaEliminar' => 'required',
         ]);
 
-        return '<h1>Eliminado: </h1>'
-                .'<p><b>Id:</b> '.$request->input("eliminarID").'</p>';
+        $codigo = $request->codigoConsultaEliminar;
+        $sucursal = $request->sucursalConsultaEliminar;
+
+        $sucursal_productos = Sucursal_Producto::whereRelation('producto', 'codigo', '=', $codigo)
+            ->get()
+            ->load('sucursal')
+            ->load('producto')
+            ->when($sucursal, function ($query, $sucursal) {
+                return $query->where('sucursal_id', '=', $sucursal);
+            });
+
+        $productos = Producto::where('activo',1)
+            ->where('codigo', $codigo)
+            ->get();
+
+        return view('eliminar', [
+            'sucursal_productos' => $sucursal_productos,
+            'productos' => $productos,
+            'tipo_alert' => '',
+            'mensaje_alert' => ''
+        ]);
     }
+
+    public function eliminarProductoDeSucursal(Request $request){
+
+        $prodId = $request->prodId;
+
+        Sucursal_Producto::where('id', $prodId)->delete();
+
+        $productos = Producto::where('activo',1)->get();
+
+        $sucursal_productos = Sucursal_Producto::get()
+            ->load('sucursal')
+            ->load('producto');
+
+        return view('eliminar', [
+            'sucursal_productos' => $sucursal_productos,
+            'productos' => $productos,
+            'tipo_alert' => 'success',
+            'mensaje_alert' => 'Producto correctamente eliminado de la sucursal. Asociación Producto - Sucursal id: '.$prodId
+        ]);
+        
+    }
+
+    public function darDeBajaProducto(Request $request){
+
+        $prodId = $request->prodId;
+
+        Sucursal_Producto::where('producto_id', $prodId)->delete();
+
+        Producto::where('id', $prodId)->update(['activo' => 0]);
+
+        $productos = Producto::where('activo',1)->get();
+
+        $sucursal_productos = Sucursal_Producto::get()
+            ->load('sucursal')
+            ->load('producto');
+
+        return view('eliminar', [
+            'sucursal_productos' => $sucursal_productos,
+            'productos' => $productos,
+            'tipo_alert' => 'success',
+            'mensaje_alert' => 'Producto id '.$prodId.' correctamente dado de baja.'
+        ]);
+    }
+
+    public function eliminarProducto(Request $request){
+
+        $prodId = $request->prodId;
+
+        Sucursal_Producto::where('producto_id', $prodId)->delete();
+
+        Producto::where('id', $prodId)->delete();
+
+        $productos = Producto::where('activo',1)->get();
+
+        $sucursal_productos = Sucursal_Producto::get()
+            ->load('sucursal')
+            ->load('producto');
+
+        return view('eliminar', [
+            'sucursal_productos' => $sucursal_productos,
+            'productos' => $productos,
+            'tipo_alert' => 'success',
+            'mensaje_alert' => 'Producto id '.$prodId.' correctamente eliminado.'
+        ]);
+    }
+
+    public function seleccionarProductoAsignar(Request $request){
+
+        $prodId = $request->prodId;
+
+        $productos = Producto::where('id', $prodId)->get();
+        $sucursales = Sucursal::get();
+
+        return view('asignar', [
+            'productos' => $productos,
+            'sucursales' => $sucursales
+        ]);
+    }
+
+    public function guardarProductoSucursal(Request $request){
+
+        //Logica de codigo
+        $this->validate($request, [
+            'prodId' => 'required',
+            'prodSucursal' => 'required',
+            'prodCantidad' => 'required',
+            'prodPrecio' => 'required',
+        ]);
+
+        $sucursales_productos = Sucursal_Producto::where('producto_id', $request->prodId)
+            ->where('sucursal_id', $request->prodSucursal)
+            ->get();
+
+        if($sucursales_productos->isEmpty()){
+            //creamos
+            $sucursalProducto = new Sucursal_Producto();
+            $sucursalProducto->sucursal_id = $request->prodSucursal;
+            $sucursalProducto->producto_id = $request->prodId;
+            $sucursalProducto->precio = $request->prodPrecio;
+            $sucursalProducto->stock = $request->prodCantidad;
+            $sucursalProducto->save();
     
+            $productos = Producto::where('activo',1)->get();
+
+            return view('tablaAsignar', [
+                'productos' => $productos,
+                'tipo_alert' => 'success',
+                'mensaje_alert' => 'Producto id '.$request->prodSucursal.' correctamente asociado a sucursal.'
+            ]);
+        } else {
+            $productos = Producto::where('activo',1)->get();
+
+            return view('tablaAsignar', [
+                'productos' => $productos,
+                'tipo_alert' => 'danger',
+                'mensaje_alert' => 'Error al guardar producto en sucursal. Producto id '.$request->prodSucursal.' ya estaba asociado previamente a la sucursal.'
+            ]);
+        }
+
+    }
 }   
 
