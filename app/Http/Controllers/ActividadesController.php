@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Producto;
 use App\Models\Sucursal_Producto;
 use App\Models\Sucursal;
-use App\Models\Producto;
 use Illuminate\Support\Facade\DB;
 
 class ActividadesController extends Controller
