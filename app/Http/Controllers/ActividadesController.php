@@ -155,11 +155,26 @@ class ActividadesController extends Controller
         if($productos == 0){
               //Nose encontró productos
         } else {
-            $productoUpDate = Producto::where('codigo', '=', $termino)
+            $productoUpdate = Producto::where('codigo', '=', $termino)
             ->update([
                 'nombre'=> $request->nombreActualizar,
                 'descripcion'=> $request->descripcionActualizar
             ]);
+
+            $sucursalId = $request->sucursalActualizar;
+            if($sucursalId){
+                $productoId = Producto::where('codigo', '=', $termino)->first()->id;
+                $sucursal_producto = Sucursal_Producto::where('sucursal_id', $sucursalId)
+                ->where('producto_id', $productoId)->first();
+                
+                if($sucursal_producto){
+                    $sucursal_productoId = $sucursal_producto->id;
+                    $sucursalProductoUpdate = Sucursal_Producto::where('id', '=', $sucursal_productoId)
+                    ->update([
+                        'precio' => $request->precioActualizar
+                    ]);
+                }
+            }
         }
             
 

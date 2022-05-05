@@ -24,7 +24,17 @@
                     <input type="text" name="nombreActualizar" class="form-control" placeholder="ingrese nombre">
                 </div>
                 <div class="mb-3">
-                    <label for="">PRECIO</label>
+                        <label for="">SUCURSAL</label>
+                        <select name="sucursalActualizar" class="form-select">
+                            <option value=""  placeholder="seleccione">--Seleccione una Sucursal (opcional)--</option>
+                            @foreach($sucursales as $sucursal)
+                                <option value="{{$sucursal->id}}">{{$sucursal->nombre}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                <div class="mb-3">
+                    <label for="">PRECIO SUCURSAL. (para actualizar precio debe seleccionar una sucursal)</label>
                     <input type="text" name="precioActualizar" class="form-control" placeholder="ingrese precio">
                 </div>
                 <div class="mb-3">
