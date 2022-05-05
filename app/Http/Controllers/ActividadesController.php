@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Producto;
 use App\Models\Sucursal_Producto;
 use App\Models\Sucursal;
-use App\Models\Producto;
 use Illuminate\Support\Facade\DB;
 
 class ActividadesController extends Controller
@@ -26,7 +25,11 @@ class ActividadesController extends Controller
     }
 
     public function actualizar(){
-        return view('actualizar');
+        $sucursales = Sucursal::get();
+
+        return view('actualizar', [
+            'sucursales' => $sucursales
+        ]);
     }
 
     public function consultar(){
@@ -137,8 +140,32 @@ class ActividadesController extends Controller
             'precioActualizar' => 'required | integer',
             'descripcionActualizar' => 'required',
         ]);
+        $buscarPor = $request->buscarProductoPor;
+        $operador = '=';
+        $termino = $request->codigoActualizar;
+        $sucursal = $request->sucursalConsulta;
+
+        if ($request->buscarProductoPor == 'nombre') {
+            $operador = 'like';
+            $termino = '%'.$request->codigoActualizar.'%';
+        }
+
+        $productos = Producto::where('codigo', '=', $termino)
+            ->count();
+        if($productos == 0){
+              //Nose encontró productos
+        } else {
+            $productoUpDate = Producto::where('codigo', '=', $termino)
+            ->update([
+                'nombre'=> $request->nombreActualizar,
+                'descripcion'=> $request->descripcionActualizar
+            ]);
+        }
+            
+
 
         return '<h1>Actualizado: </h1>'
+                .'<p><b>Codigo:</b> '.$request->input("codigoActualizar").'</p>'
                 .'<p><b>Nombre:</b> '.$request->input("nombreActualizar").'</p>'
                 .'<p><b>Precio:</b> '.$request->input("precioActualizar").'</p>'
                 .'<p><b>Descripción:</b> '.$request->input("descripcionActualizar").'</p>';

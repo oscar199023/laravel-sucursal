@@ -15,17 +15,21 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <form action="{{url('formularioActualizar')}}" method="post">
+            <div class="mb-3">
+                    <label for="">CODIGO</label>
+                    <input type="text" name="codigoActualizar" class="form-control" placeholder="ingrese codigo">
+                </div>
                 <div class="mb-3">
                     <label for="">NOMBRE</label>
-                    <input type="text" name="nombreActualizar" class="form-control">
+                    <input type="text" name="nombreActualizar" class="form-control" placeholder="ingrese nombre">
                 </div>
                 <div class="mb-3">
                     <label for="">PRECIO</label>
-                    <input type="text" name="precioActualizar" class="form-control">
+                    <input type="text" name="precioActualizar" class="form-control" placeholder="ingrese precio">
                 </div>
                 <div class="mb-3">
                     <label for="">DESCRIPCION</label>
-                    <input type="text" name="descripcionActualizar" class="form-control">
+                    <input type="text" name="descripcionActualizar" class="form-control" placeholder="ingrese descripción">
                 </div>
                 <button type="submit" class="btn btn-primary">ACTUALIZAR</button>
                 @if($errors->any())
