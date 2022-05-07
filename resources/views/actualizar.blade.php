@@ -1,22 +1,25 @@
 @extends('layouts.app')
 
 @section('header')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <h1>Actualizar producto en sucursal</h1>
+    @if ($sucursal_productos->count() == 0)      
+        <div class="alert alert-danger" role="alert">
+            Error. No se encontró el producto en la sucursal.
         </div>
-    </div>
-</div>
+    @else
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <h1>Actualizar producto en sucursal</h1>
+                </div>
+            </div>
+        </div>
+    @endif  
 @stop
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            @if ($sucursal_productos->count() == 0)
-                <p>Error. No se encontró el producto en la sucursal.</p>
-            @endif
             @foreach ($sucursal_productos as $sucursal_producto)                
                 <form action="{{url('formularioActualizar')}}" method="post">
                     <div class="mb-3">
