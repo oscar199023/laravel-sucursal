@@ -18,7 +18,8 @@
                 <form action="{{url('formularioActualizar')}}" method="post">
                     <div class="mb-3">
                         <label for="">CODIGO</label>
-                        <input type="text" name="codigoActualizar" class="form-control" disabled value="{{ $sucursal_producto->producto->codigo }}">
+                        <input type="hidden" name="codigoActualizar" value="{{ $sucursal_producto->producto->codigo }}">
+                        <input type="text" class="form-control" disabled value="{{ $sucursal_producto->producto->codigo }}">
                     </div>
                     <div class="mb-3">
                         <label for="">NOMBRE</label>
@@ -30,7 +31,8 @@
                     </div>  
                     <div class="mb-3">
                         <label for="">SUCURSAL</label>
-                        <input type="text" name="sucursalActualizar" class="form-control" disabled  value="{{ $sucursal_producto->sucursal->nombre }}">
+                        <input type="hidden" name="sucursalActualizar" value="{{ $sucursal_producto->sucursal->id }}">
+                        <input type="text" class="form-control" disabled  value="{{ $sucursal_producto->sucursal->nombre }}">
                     </div>
                     <div class="mb-3">
                         <label for="">PRECIO SUCURSAL</label>

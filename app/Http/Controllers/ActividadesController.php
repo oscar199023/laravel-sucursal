@@ -141,44 +141,55 @@ class ActividadesController extends Controller
     public function formularioActualizar(Request $request){
 
         $this->validate($request,[
+            'codigoActualizar' => 'required',
             'nombreActualizar' => 'required',
+            'sucursalActualizar' => 'required',
             'precioActualizar' => 'required | integer',
             'descripcionActualizar' => 'required',
         ]);
-        $buscarPor = $request->buscarProductoPor;
-        $operador = '=';
-        $termino = $request->codigoActualizar;
-        $sucursal = $request->sucursalConsulta;
+        
+        //codigo
+        $codigo = $request->codigoActualizar;
 
-        if ($request->buscarProductoPor == 'nombre') {
-            $operador = 'like';
-            $termino = '%'.$request->codigoActualizar.'%';
-        }
-
-        $productos = Producto::where('codigo', '=', $termino)
+        $productos = Producto::where('codigo', '=', $codigo)
             ->count();
         if($productos == 0){
               //No se encontró productos
         } else {
-            $productoUpdate = Producto::where('codigo', '=', $termino)
-            ->update([
-                'nombre'=> $request->nombreActualizar,
-                'descripcion'=> $request->descripcionActualizar
+
+            $productoUpdate = Producto::where('codigo', '=', $codigo)
+                ->update([
+                    'nombre'=> $request->nombreActualizar,
+                    'descripcion'=> $request->descripcionActualizar,
             ]);
 
+            
+
             $sucursalId = $request->sucursalActualizar;
-            if($sucursalId){
-                $productoId = Producto::where('codigo', '=', $termino)->first()->id;
-                $sucursal_producto = Sucursal_Producto::where('sucursal_id', $sucursalId)
-                ->where('producto_id', $productoId)->first();
-                
-                if($sucursal_producto){
-                    $sucursal_productoId = $sucursal_producto->id;
-                    $sucursalProductoUpdate = Sucursal_Producto::where('id', '=', $sucursal_productoId)
-                    ->update([
-                        'precio' => $request->precioActualizar
-                    ]);
-                }
+            $productoId = Producto::where('codigo', '=', $codigo)->first()->id;
+            $sucursal_producto = Sucursal_Producto::where('sucursal_id', $sucursalId)
+            ->where('producto_id', $productoId)->first();
+            
+            if($sucursal_producto){
+                $sucursal_productoId = $sucursal_producto->id;
+                $sucursalProductoUpdate = Sucursal_Producto::where('id', '=', $sucursal_productoId)
+                ->update([
+                    'precio' => $request->precioActualizar
+                ]);
+
+                $productos = Sucursal_Producto::get()
+                    ->load('sucursal')
+                    ->load('producto');
+
+                return view('consultar', [
+                    'sucursal_productos' => $productos,
+                    'tipo_alert' => 'success',
+                    'mensaje_alert' => 'Producto correctamente actualizado de la sucursal. Asociación Producto - Sucursal id: '.$sucursal_productoId
+                ]);
+
+
+            } else {
+                //no se encontró el producto en la sucursal
             }
         }
             
@@ -244,6 +255,10 @@ class ActividadesController extends Controller
     public function eliminarProductoDeSucursalVistaActualizar(Request $request){
 
         $prodId = $request->prodId;
+        
+        //TODO validar antes que exista
+
+        Sucursal_Producto::where('id', $prodId)->delete();
 
         $productos = Sucursal_Producto::get()
             ->load('sucursal')
