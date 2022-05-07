@@ -14,6 +14,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            @if ($sucursal_productos->count() == 0)
+                <p>Error. No se encontró el producto en la sucursal.</p>
+            @endif
             @foreach ($sucursal_productos as $sucursal_producto)                
                 <form action="{{url('formularioActualizar')}}" method="post">
                     <div class="mb-3">
