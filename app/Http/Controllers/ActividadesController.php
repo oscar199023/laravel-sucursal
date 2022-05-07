@@ -24,11 +24,14 @@ class ActividadesController extends Controller
         return view('actividades');  
     }
 
-    public function actualizar(){
-        $sucursales = Sucursal::get();
+    public function actualizar(Request $request){
+        $sucursal_productos = Sucursal_Producto::where('id', $request->sucProdId)
+            ->get()
+            ->load('sucursal')
+            ->load('producto');
 
         return view('actualizar', [
-            'sucursales' => $sucursales
+            'sucursal_productos' => $sucursal_productos,
         ]);
     }
 
@@ -38,7 +41,9 @@ class ActividadesController extends Controller
             ->load('producto');
 
         return view('consultar', [
-            'sucursal_productos' => $productos
+            'sucursal_productos' => $productos,
+            'tipo_alert' => '',
+            'mensaje_alert' => ''
         ]);
     }
 
@@ -153,7 +158,7 @@ class ActividadesController extends Controller
         $productos = Producto::where('codigo', '=', $termino)
             ->count();
         if($productos == 0){
-              //Nose encontró productos
+              //No se encontró productos
         } else {
             $productoUpdate = Producto::where('codigo', '=', $termino)
             ->update([
@@ -234,6 +239,22 @@ class ActividadesController extends Controller
             'mensaje_alert' => 'Producto correctamente eliminado de la sucursal. Asociación Producto - Sucursal id: '.$prodId
         ]);
         
+    }
+
+    public function eliminarProductoDeSucursalVistaActualizar(Request $request){
+
+        $prodId = $request->prodId;
+
+        $productos = Sucursal_Producto::get()
+            ->load('sucursal')
+            ->load('producto');
+
+        return view('consultar', [
+            'sucursal_productos' => $productos,
+            'tipo_alert' => 'success',
+            'mensaje_alert' => 'Producto correctamente eliminado de la sucursal. Asociación Producto - Sucursal id: '.$prodId
+        ]);
+
     }
 
     public function darDeBajaProducto(Request $request){
