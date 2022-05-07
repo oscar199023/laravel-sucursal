@@ -120,7 +120,9 @@ class ActividadesController extends Controller
             });
 
         return view('consultar', [
-            'sucursal_productos' => $sucursal_productos
+            'sucursal_productos' => $sucursal_productos,
+            'tipo_alert' => '',
+            'mensaje_alert' => ''
         ]);
     }
 
@@ -199,14 +201,7 @@ class ActividadesController extends Controller
                 ]);
             }
         }
-            
 
-
-        return '<h1>Actualizado: </h1>'
-                .'<p><b>Codigo:</b> '.$request->input("codigoActualizar").'</p>'
-                .'<p><b>Nombre:</b> '.$request->input("nombreActualizar").'</p>'
-                .'<p><b>Precio:</b> '.$request->input("precioActualizar").'</p>'
-                .'<p><b>Descripción:</b> '.$request->input("descripcionActualizar").'</p>';
     }
 
     public function consultaEliminar(Request $request){
