@@ -163,8 +163,6 @@ class ActividadesController extends Controller
                     'descripcion'=> $request->descripcionActualizar,
             ]);
 
-            
-
             $sucursalId = $request->sucursalActualizar;
             $productoId = Producto::where('codigo', '=', $codigo)->first()->id;
             $sucursal_producto = Sucursal_Producto::where('sucursal_id', $sucursalId)
@@ -190,6 +188,15 @@ class ActividadesController extends Controller
 
             } else {
                 //no se encontró el producto en la sucursal
+                $productos = Sucursal_Producto::get()
+                    ->load('sucursal')
+                    ->load('producto');
+
+                return view('consultar', [
+                    'sucursal_productos' => $productos,
+                    'tipo_alert' => 'danger',
+                    'mensaje_alert' => 'Error al actualizar. Producto no existe en la sucursal.'
+                ]);
             }
         }
             
@@ -253,23 +260,34 @@ class ActividadesController extends Controller
     }
 
     public function eliminarProductoDeSucursalVistaActualizar(Request $request){
-
         $prodId = $request->prodId;
         
-        //TODO validar antes que exista
+        //validar antes que exista
+        $productoExiste = Sucursal_Producto::where('id', $prodId)->count();
 
-        Sucursal_Producto::where('id', $prodId)->delete();
-
-        $productos = Sucursal_Producto::get()
-            ->load('sucursal')
-            ->load('producto');
-
-        return view('consultar', [
-            'sucursal_productos' => $productos,
-            'tipo_alert' => 'success',
-            'mensaje_alert' => 'Producto correctamente eliminado de la sucursal. Asociación Producto - Sucursal id: '.$prodId
-        ]);
-
+        if ($productoExiste > 0) {
+            Sucursal_Producto::where('id', $prodId)->delete();
+    
+            $productos = Sucursal_Producto::get()
+                ->load('sucursal')
+                ->load('producto');
+    
+            return view('consultar', [
+                'sucursal_productos' => $productos,
+                'tipo_alert' => 'success',
+                'mensaje_alert' => 'Producto correctamente eliminado de la sucursal. Asociación Producto - Sucursal id: '.$prodId
+            ]);            
+        } else {
+            $productos = Sucursal_Producto::get()
+                ->load('sucursal')
+                ->load('producto');
+    
+            return view('consultar', [
+                'sucursal_productos' => $productos,
+                'tipo_alert' => 'danger',
+                'mensaje_alert' => 'Error al eliminar. Producto no existe en la sucursal.'
+            ]);
+        }
     }
 
     public function darDeBajaProducto(Request $request){
