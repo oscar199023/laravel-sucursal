@@ -189,7 +189,6 @@ class ActividadesController extends Controller
                     'mensaje_alert' => 'Producto correctamente actualizado de la sucursal. Asociación Producto - Sucursal id: '.$sucursal_productoId
                 ]);
 
-
             } else {
                 //no se encontró el producto en la sucursal
                 $productos = Sucursal_Producto::get()
