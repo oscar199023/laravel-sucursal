@@ -38,8 +38,6 @@
                     <a href="{{ url('/consultar') }}">Consultar</a>
                     <hr>
                     <a href="{{ url('/eliminar') }}">Eliminar</a>
-                    <hr>
-                    <a href="{{ url('/actualizar') }}">Actualizar</a>
                 </div>
             </div>
 

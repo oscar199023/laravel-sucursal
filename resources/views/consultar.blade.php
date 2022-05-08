@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('header')
+@if($mensaje_alert != "")
+    <div class="alert alert-{{$tipo_alert}}" role="alert">
+        {{$mensaje_alert}}
+    </div>
+@endif
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -67,6 +72,7 @@
                         <th scope="col">Sucursal</th>
                         <th scope="col">Precio</th>
                         <th scope="col">Stock</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -79,6 +85,12 @@
                                 <th scope="row">{{ $sucursal_producto->sucursal->nombre }}</th>
                                 <th scope="row">{{ $sucursal_producto->precio }}</th>
                                 <th scope="row">{{ $sucursal_producto->stock }}</th>
+                                <th scope="row">
+                                    <form action="{{url('actualizar')}}" method="post">
+                                        <input id="sucProdId" name="sucProdId" type="hidden" value="{{ $sucursal_producto->id }}">
+                                        <button type="submit" class="btn btn-link">Editar producto</button>
+                                    </form>
+                                </th>
                             </tr>
                     @endforeach
                 </tbody>

@@ -43,9 +43,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/eliminar') }}">Eliminar</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/actualizar') }}">Actualizar</a>
-                        </li>
                     </ul>
                 @endauth
 
