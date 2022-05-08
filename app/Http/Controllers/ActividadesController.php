@@ -167,10 +167,12 @@ class ActividadesController extends Controller
 
             $sucursalId = $request->sucursalActualizar;
             $productoId = Producto::where('codigo', '=', $codigo)->first()->id;
-            $sucursal_producto = Sucursal_Producto::where('sucursal_id', $sucursalId)
-            ->where('producto_id', $productoId)->first();
+            $sucursal_producto_existe = Sucursal_Producto::where('sucursal_id', $sucursalId)
+                ->where('producto_id', $productoId)->count();
             
-            if($sucursal_producto){
+            if($sucursal_producto_existe > 0){
+                $sucursal_producto = Sucursal_Producto::where('sucursal_id', $sucursalId)
+                    ->where('producto_id', $productoId)->first();
                 $sucursal_productoId = $sucursal_producto->id;
                 $sucursalProductoUpdate = Sucursal_Producto::where('id', '=', $sucursal_productoId)
                 ->update([
