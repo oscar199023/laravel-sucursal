@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', 'ActividadesController@index');
-Route::get('/actualizar', 'ActividadesController@actualizar');
 Route::get('/consultar', 'ActividadesController@consultar');
 Route::get('/eliminar', 'ActividadesController@eliminar');
 Route::get('/registrar','ActividadesController@registrar');
@@ -54,6 +53,11 @@ Route::post('/eliminarProductoDeSucursal',[
     'as' => 'eliminarProductoDeSucursal'
 ]);
 
+Route::post('/eliminarProductoDeSucursalVistaActualizar',[
+    'uses' => 'ActividadesController@eliminarProductoDeSucursalVistaActualizar',
+    'as' => 'eliminarProductoDeSucursalVistaActualizar'
+]);
+
 Route::post('/darDeBajaProducto',[
     'uses' => 'ActividadesController@darDeBajaProducto',
     'as' => 'darDeBajaProducto'
@@ -72,4 +76,9 @@ Route::post('/seleccionarProductoAsignar',[
 Route::post('/guardarProductoSucursal',[
     'uses' => 'ActividadesController@guardarProductoSucursal',
     'as' => 'guardarProductoSucursal'
+]);
+
+Route::post('/actualizar',[
+    'uses' => 'ActividadesController@actualizar',
+    'as' => 'actualizar'
 ]);
